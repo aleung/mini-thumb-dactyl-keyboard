@@ -1,0 +1,10 @@
+*~
+\#*\#
+
+.repl-*
+.nrepl-*
+
+.lein-*
+*.gcode
+*.scad
+/target
