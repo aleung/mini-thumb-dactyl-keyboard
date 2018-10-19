@@ -9,6 +9,9 @@
 (defn deg2rad [degrees]
   (* (/ degrees 180) pi))
 
+(defn replace-last [coll x]
+  (concat (butlast coll) [x]))
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Shape parameters ;;
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -583,7 +586,7 @@
   ))
 
 
-(def rj9-start  (map + [0 -3  0] (key-position 0 0 (map + (wall-locate3 0 1) [0 (/ mount-height  2) 0]))))
+(def rj9-start  (map + [4 -3  0] (key-position 0 0 (map + (wall-locate3 0 1) [0 (/ mount-height  2) 0]))))
 (def rj9-position  [(first rj9-start) (second rj9-start) 11])
 (def rj9-cube   (cube 14.78 13 22.38))
 (def rj9-space  (translate rj9-position rj9-cube))
@@ -592,52 +595,25 @@
                               (union (translate [0 2 0] (cube 10.78  10 18.38))
                                      (translate [0 -0.01 5] (cube 10.78 14  5))))))
 
-(def usb-holder-position (key-position 1 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
-(def usb-holder-size [6.5 10.0 13.6])
-(def usb-holder-thickness 4)
-(def usb-holder-hole-size [6.5 11 13.6])
-(def usb-holder-hole-thickness 5)
-(def usb-holder
-    (->> (cube (+ (first usb-holder-size) usb-holder-thickness) (second usb-holder-size) (+ (last usb-holder-size) usb-holder-thickness))
-         (translate [(first usb-holder-position) (second usb-holder-position) (/ (+ (last usb-holder-size) usb-holder-thickness) 2)])))
+(def arduino-holder-thickness 4)
+(def usb-hole-size [7 10 13])
+(def usb-hole-position (replace-last
+   (map + [-8 2 0] (key-position 0 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
+   (+ (/ (last usb-hole-size) 2) 3)
+))
+(def arduino-length 34)
+(def arduino-holder-size (map + [arduino-holder-thickness (+ arduino-length 2) (+ arduino-holder-thickness 2)] usb-hole-size))
+(def arduino-holder
+    (->> (difference
+            (->> (apply cube arduino-holder-size)
+                 (translate [0 (/ (second arduino-holder-size) -2) 0]))
+            (->> (cube (first arduino-holder-size) arduino-length (+ (last arduino-holder-size) 1))
+                 (translate [(/ arduino-holder-thickness 2) (- (/ arduino-length -2) (second usb-hole-size)) 0]))
+         )
+         (translate usb-hole-position)))
 (def usb-holder-hole
-    (->> (apply cube usb-holder-hole-size)
-         (translate [(first usb-holder-position) (second usb-holder-position) (/ (+ (last usb-holder-hole-size) usb-holder-hole-thickness) 2)])))
-
-(def teensy-width 20)  
-(def teensy-height 12)
-(def teensy-length 33)
-(def teensy2-length 53)
-(def teensy-pcb-thickness 2) 
-(def teensy-holder-width  (+ 7 teensy-pcb-thickness))
-(def teensy-holder-height (+ 6 teensy-width))
-(def teensy-offset-height 5)
-(def teensy-holder-top-length 18)
-(def teensy-top-xy (key-position 0 (- centerrow 1) (wall-locate3 -1 0)))
-(def teensy-bot-xy (key-position 0 (+ centerrow 1) (wall-locate3 -1 0)))
-(def teensy-holder-length (- (second teensy-top-xy) (second teensy-bot-xy)))
-(def teensy-holder-offset (/ teensy-holder-length -2))
-(def teensy-holder-top-offset (- (/ teensy-holder-top-length 2) teensy-holder-length))
- 
-(def teensy-holder 
-    (->> 
-        (union 
-          (->> (cube 3 teensy-holder-length (+ 6 teensy-width))
-               (translate [1.5 teensy-holder-offset 0]))
-          (->> (cube teensy-pcb-thickness teensy-holder-length 3)
-               (translate [(+ (/ teensy-pcb-thickness 2) 3) teensy-holder-offset (- -1.5 (/ teensy-width 2))]))
-          (->> (cube 4 teensy-holder-length 4)
-               (translate [(+ teensy-pcb-thickness 5) teensy-holder-offset (-  -1 (/ teensy-width 2))]))
-          (->> (cube teensy-pcb-thickness teensy-holder-top-length 3)
-               (translate [(+ (/ teensy-pcb-thickness 2) 3) teensy-holder-top-offset (+ 1.5 (/ teensy-width 2))]))
-          (->> (cube 4 teensy-holder-top-length 4)
-               (translate [(+ teensy-pcb-thickness 5) teensy-holder-top-offset (+ 1 (/ teensy-width 2))])))
-        (translate [(- teensy-holder-width) 0 0])
-        (translate [-1.4 0 0])
-        (translate [(first teensy-top-xy) 
-                    (- (second teensy-top-xy) 1) 
-                    (/ (+ 6 teensy-width) 2)])
-           ))
+    (->> (apply cube (map + [0 1 0] usb-hole-size))
+         (translate (map + [0 (/ (second usb-hole-size) -2) 0] usb-hole-position))))
 
 (defn screw-insert-shape [bottom-radius top-radius height] 
    (union (cylinder [bottom-radius top-radius] height)
@@ -702,8 +678,8 @@
                     thumb-connectors
                     (difference (union case-walls 
                                        screw-insert-outers 
-                                       ; teensy-holder
-                                       usb-holder)
+                                       arduino-holder
+                                       )
                                 rj9-space 
                                 usb-holder-hole
                                 (translate [0 0 -0.01] screw-insert-holes) )
@@ -731,15 +707,9 @@
                     case-walls 
                     thumbcaps
                     caps
-                    ; teensy-holder
                     rj9-holder
                     usb-holder-hole
-                    ; usb-holder-hole
-                    ; ; teensy-holder-hole
                     ;             screw-insert-outers 
-                    ;             teensy-screw-insert-holes
-                    ;             teensy-screw-insert-outers
-                    ;             usb-cutout 
                     ;             rj9-space 
                                 ; wire-posts
                   )))
@@ -749,7 +719,6 @@
                    (cut
                      (translate [0 0 -0.1]
                        (difference (union case-walls
-                                          ; teensy-holder
                                           ; rj9-holder
                                           screw-insert-outers)
                                    (translate [0 0 -10] screw-insert-screw-holes))
@@ -757,7 +726,7 @@
 
 (spit "things/test.scad"
       (write-scad 
-         (difference usb-holder usb-holder-hole)))
+         (difference arduino-holder usb-holder-hole)))
 
 
 
