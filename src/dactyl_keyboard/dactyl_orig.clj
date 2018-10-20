@@ -54,6 +54,9 @@
 (def fixed-z [12.1    8.3 0  5   10.7 14.5 17.5])  
 (def fixed-tenting (deg2rad 0))  
 
+(def bottom-plate-thickness 3)
+(def bottom-plate-infill-thickness 0.6)
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; General variables ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -669,6 +672,40 @@
         (key-place column row (translate [0 0 0] (wire-post -1 6)))
         (key-place column row (translate [5 0 0] (wire-post  1 0)))))))
 
+(def plate-infill
+  (union
+    (triangle-hulls
+      (translate [-5 0 0] (key-place 0 0 web-post-tl))
+      (translate [-5 0 0] (key-place 0 (- nrows 2) web-post-bl))
+      (translate [0 3 0] (key-place 2 0 web-post-tl))
+      (key-place 2 (- nrows 1) web-post-bl)
+      (key-place 3 0 web-post-tr)
+      (key-place 3 (- nrows 1) web-post-br)
+      (key-place (- ncols 1) 0 web-post-tr)
+      (key-place (- ncols 1) (- nrows 2) web-post-br)
+    )
+    (triangle-hulls
+      (translate [0 6 0](thumb-br-place thumb-post-bl))
+      (translate [6 0 0](thumb-bl-place thumb-post-tl))
+      (thumb-tr-place thumb-post-br)
+      (translate [-3 5 0] (thumb-tl-place thumb-post-tl))
+      (thumb-tr-place thumb-post-tr)
+    )
+  ))
+        
+(def plate-right
+  (difference
+    (union
+     (bottom bottom-plate-thickness (union
+                case-walls
+                connectors
+                thumb-connectors
+                rj9-holder
+                arduino-holder
+                screw-insert-outers))
+     (color [240/255 23/255 175/255 1] (bottom bottom-plate-infill-thickness plate-infill)))
+    (translate [0 0 -10] screw-insert-screw-holes)
+  ))
 
 (def model-right (difference 
                    (union
@@ -715,14 +752,10 @@
                   )))
 
 (spit "things/right-plate.scad"
-      (write-scad 
-                   (cut
-                     (translate [0 0 -0.1]
-                       (difference (union case-walls
-                                          ; rj9-holder
-                                          screw-insert-outers)
-                                   (translate [0 0 -10] screw-insert-screw-holes))
-                  ))))
+      (write-scad plate-right))
+
+(spit "things/left-plate.scad"
+      (write-scad (mirror [-1 0 0] plate-right)))
 
 (spit "things/test.scad"
       (write-scad 
