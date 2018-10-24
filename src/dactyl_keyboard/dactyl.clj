@@ -627,6 +627,17 @@
     (->> (apply cube (map + [0 0.1 0] usb-hole-size))
          (translate (map + [0 (/ (second usb-hole-size) -2) 0] usb-hole-position))))
 
+(def reset-button-width 6.5)
+(def reset-button-position (replace-last
+   (key-position 1 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0]))
+   (+ (/ reset-button-width 2) 2)))
+(def reset-button-hole
+  (->> (cube reset-button-width 10 reset-button-width)
+       (translate reset-button-position)))
+(def reset-button-holder
+  (->> (cube (- reset-button-width 2.5) 1.5 (+ reset-button-width 4))
+       (translate (map + [0 (- 0.5 wall-thickness) 0] reset-button-position))))
+      
 (defn screw-insert-shape [bottom-radius top-radius height] 
    (union (cylinder [bottom-radius top-radius] height)
           (translate [0 0 (/ height 2)] (sphere top-radius))))
@@ -728,8 +739,10 @@
                                        )
                                 rj9-space 
                                 usb-holder-hole
+                                reset-button-hole
                                 (translate [0 0 -0.01] screw-insert-holes) )
                     rj9-holder
+                    reset-button-holder
                     ; wire-posts
                     ; thumbcaps
                     ; caps
