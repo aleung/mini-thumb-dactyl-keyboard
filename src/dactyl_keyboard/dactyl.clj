@@ -589,7 +589,7 @@
   ))
 
 
-(def rj9-start  (map + [4 -3  0] (key-position 0 0 (map + (wall-locate3 0 1) [0 (/ mount-height  2) 0]))))
+(def rj9-start  (map + [5 -3  0] (key-position 0 0 (map + (wall-locate3 0 1) [0 (/ mount-height  2) 0]))))
 (def rj9-position  [(first rj9-start) (second rj9-start) 11])
 (def rj9-cube   (cube 14.78 13 22.38))
 (def rj9-space  (translate rj9-position rj9-cube))
@@ -605,17 +605,26 @@
    (+ (/ (last usb-hole-size) 2) 3)
 ))
 (def arduino-length 34)
+(def micro-usb-height 4.2)
 (def arduino-holder-size (map + [arduino-holder-thickness (+ arduino-length 2) (+ arduino-holder-thickness 2)] usb-hole-size))
 (def arduino-holder
-    (->> (difference
-            (->> (apply cube arduino-holder-size)
-                 (translate [0 (/ (second arduino-holder-size) -2) 0]))
-            (->> (cube (first arduino-holder-size) arduino-length (+ (last arduino-holder-size) 1))
-                 (translate [(/ arduino-holder-thickness 2) (- (/ arduino-length -2) (second usb-hole-size)) 0]))
+    (->> (union
+            (difference
+                (->> (apply cube arduino-holder-size)
+                     (translate [0 (/ (second arduino-holder-size) -2) 0]))
+                (->> (cube (first arduino-holder-size) arduino-length (+ (last arduino-holder-size) 1))
+                     (translate [(/ arduino-holder-thickness 2) (- (/ arduino-length -2) (second usb-hole-size)) 0]))
+            )
+            (difference
+              (->> (cube (first arduino-holder-size) 4 (last arduino-holder-size))
+                   (translate [0 (- (second usb-hole-size)) 0]))
+              (->> (cube micro-usb-height 4.1 (+ (last arduino-holder-size) 0.1))
+                   (translate [0 (- (second usb-hole-size)) 0]))
+            )
          )
          (translate usb-hole-position)))
 (def usb-holder-hole
-    (->> (apply cube (map + [0 1 0] usb-hole-size))
+    (->> (apply cube (map + [0 0.1 0] usb-hole-size))
          (translate (map + [0 (/ (second usb-hole-size) -2) 0] usb-hole-position))))
 
 (defn screw-insert-shape [bottom-radius top-radius height] 
