@@ -1,4 +1,4 @@
-(ns dactyl-keyboard.dactyl-orig
+(ns dactyl-keyboard.dactyl
   (:refer-clojure :exclude [use import])
   (:require [clojure.core.matrix :refer [array matrix mmul]]
             [scad-clj.scad :refer :all]
@@ -599,7 +599,7 @@
                                      (translate [0 -0.01 5] (cube 10.78 14  5))))))
 
 (def arduino-holder-thickness 4)
-(def usb-hole-size [7 10 13])
+(def usb-hole-size [8 10 13])
 (def usb-hole-position (replace-last
    (map + [-8 2 0] (key-position 0 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
    (+ (/ (last usb-hole-size) 2) 3)
