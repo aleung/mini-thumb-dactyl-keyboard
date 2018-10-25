@@ -644,7 +644,7 @@
    (union (cylinder [bottom-radius top-radius] height)
           (translate [0 0 (/ height 2)] (sphere top-radius))))
 
-(defn screw-insert [column row bottom-radius top-radius height] 
+(defn screw-insert [column row shape height] 
   (let [shift-right   (= column lastcol)
         shift-left    (= column 0)
         shift-up      (and (not (or shift-right shift-left)) (= row 0))
@@ -654,23 +654,26 @@
                         (if shift-left (map + (left-key-position row 0) (wall-locate3 -1 0)) 
                                        (key-position column row (map + (wall-locate2  1  0) [(/ mount-width 2) 0 0])))))
         ]
-    (->> (screw-insert-shape bottom-radius top-radius height)
-         (translate [(first position) (second position) (/ height 2)])
-    )))
+    (translate [(first position) (second position) (/ height 2)] shape)
+  ))
+
+(defn screw-insert-all [shape height]
+  (union (screw-insert 0 0                shape height)
+         (screw-insert 0 lastrow          shape height)
+         (screw-insert 2 (+ lastrow 0.3)  shape height)
+         (screw-insert 3 0                shape height)
+         (screw-insert lastcol 1          shape height)
+  ))
 
 (defn screw-insert-all-shapes [bottom-radius top-radius height]
-  (union (screw-insert 0 0         bottom-radius top-radius height)
-         (screw-insert 0 lastrow   bottom-radius top-radius height)
-         (screw-insert 2 (+ lastrow 0.3)  bottom-radius top-radius height)
-         (screw-insert 3 0         bottom-radius top-radius height)
-         (screw-insert lastcol 1   bottom-radius top-radius height)
-         ))
+  (screw-insert-all (screw-insert-shape bottom-radius top-radius height) height))
 (def screw-insert-height 3.8)
 (def screw-insert-bottom-radius (/ 5.31 2))
 (def screw-insert-top-radius (/ 5.1 2))
 (def screw-insert-holes  (screw-insert-all-shapes screw-insert-bottom-radius screw-insert-top-radius screw-insert-height))
 (def screw-insert-outers (screw-insert-all-shapes (+ screw-insert-bottom-radius 1.6) (+ screw-insert-top-radius 1.6) (+ screw-insert-height 1.5)))
-(def screw-insert-screw-holes  (screw-insert-all-shapes 1.7 1.7 350))
+(def screw-holes  (screw-insert-all (with-fn 12 (cylinder 1.7 100)) 100))
+(def screw-head-holes (screw-insert-all (cylinder [3.2 1.7] 1.7) 1.7))
 
 (def wire-post-height 7)
 (def wire-post-overhang 3.5)
@@ -718,15 +721,19 @@
 (def plate-right
   (difference
     (union
-     (bottom bottom-plate-thickness (union
+       (bottom bottom-plate-thickness 
+             (union
                 case-walls
                 connectors
                 thumb-connectors
                 rj9-holder
                 arduino-holder
                 screw-insert-outers))
-     (color [240/255 23/255 175/255 1] (bottom bottom-plate-infill-thickness plate-infill)))
-    (translate [0 0 -10] screw-insert-screw-holes)
+       (color [240/255 23/255 175/255 1] (bottom bottom-plate-infill-thickness plate-infill)))
+    (union
+      (translate [0 0 -10] screw-holes)
+      (translate [0 0 -10] screw-head-holes)
+    )
   ))
 
 (def model-right (difference 
