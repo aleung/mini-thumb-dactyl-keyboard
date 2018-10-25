@@ -616,11 +616,13 @@
                      (translate [(/ arduino-holder-thickness 2) (- (/ arduino-length -2) (second usb-hole-size)) 0]))
             )
             (difference
-              (->> (cube (first arduino-holder-size) 4 (last arduino-holder-size))
-                   (translate [0 (- (second usb-hole-size)) 0]))
-              (->> (cube micro-usb-height 4.1 (+ (last arduino-holder-size) 0.1))
-                   (translate [0 (- (second usb-hole-size)) 0]))
+                (->> (cube (first arduino-holder-size) 4 (last arduino-holder-size))
+                    (translate [0 (- (second usb-hole-size)) 0]))
+                (->> (cube micro-usb-height 4.1 (+ (last arduino-holder-size) 0.1))
+                    (translate [0 (- (second usb-hole-size)) 0]))
             )
+            (->> (cube 2 2 6)
+                 (translate [(- 3 (/ (first arduino-holder-size) 2)) (- 3 (second arduino-holder-size)) 0]))
          )
          (translate usb-hole-position)))
 (def usb-holder-hole
@@ -630,12 +632,12 @@
 (def reset-button-width 6.5)
 (def reset-button-position (replace-last
    (key-position 1 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0]))
-   (+ (/ reset-button-width 2) 2)))
+   reset-button-width))
 (def reset-button-hole
   (->> (cube reset-button-width 10 reset-button-width)
        (translate reset-button-position)))
 (def reset-button-holder
-  (->> (cube (- reset-button-width 2.5) 1.5 (+ reset-button-width 4))
+  (->> (cube (+ reset-button-width 4) 1.5 (- reset-button-width 2))
        (translate (map + [0 (- 0.5 wall-thickness) 0] reset-button-position))))
       
 (defn screw-insert-shape [bottom-radius top-radius height] 
