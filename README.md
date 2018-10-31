@@ -105,16 +105,6 @@ If wires aren't dangling, a bottom plate may not be needed.
 You need something on the bottom to keep the keyboard from sliding around. 
 Without a plate, you could use a rubber pad, or you could dip the bottom of the keyboard in PlastiDip.
 
-For more photos of the first complete wiring of v0.4, see [Imgur](http://imgur.com/a/v9eIO).
-
-This is how the rows/columns wire to the keys and the ProMicro
-![Wire Diagram](https://docs.google.com/drawings/d/1s9aAg5bXBrhtb6Xw-sGOQQEndRNOqpBRyUyHkgpnSps/pub?w=1176&h=621)
-
-
-#### Alternative row-driven wiring diagram for ProMicro:
-
-NOTE: you also make sure the firmware is set up correctly (ex: change row pins with col pins)
-
 ![Left Wire Diagram](/resources/dactyl_manuform_left_wire_diagram.png)
 
 ![Left Wire Diagram](/resources/dactyl_manuform_right_wire_diagram.png)
