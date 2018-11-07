@@ -1,8 +1,8 @@
 # How to Make a Dactyl Manuform Keyboard
 
-Dactyl Manuform keyboard is a split-hand ergonomic keyboard. It isn't a commerial production. You have to make by your own. 
+Dactyl Manuform keyboard is a split-hand ergonomic keyboard. It isn't a commerial production so you have to make by yourself. 
 
-This guide is for beginners who want to make a Dactyl Manuform keyboard to get an overview. It links to websites with further information.
+This guide gives an overview to beginners who want to make a Dactyl Manuform keyboard. It links to websites with further information.
 
 ![](dactyl-manuform.jpg)
 
@@ -86,7 +86,7 @@ To wire the columns, you may use magnet wire or copper tape. To wire the row jus
 
 The latest [QMK firmware](https://github.com/qmk/qmk_firmware) already has built-in split keyboard support. So right now it's nothing special to setup a Dactyl Manuform in QMK.
 
-There is predefined Dactyl Manuform keyboard in QMK firmware source code, in directory [`keyboards/handwired/dactyl_manuform/`](https://github.com/qmk/qmk_firmware/tree/master/keyboards/handwired/dactyl_manuform), with several models (4x5, 4x6, 5x6...). But rather than directly use it, I strongly suggest you to choose one model as baseline and copy as another folder, for example `mine`, then check it and make modification. It's because the firmware config is highly depends on how the keys wired and there is no standard way to wire. At the time I'm writing, the different models don't follow the same way of wiring.
+There is predefined Dactyl Manuform keyboard in QMK firmware source code, in directory [`keyboards/handwired/dactyl_manuform/`](https://github.com/qmk/qmk_firmware/tree/master/keyboards/handwired/dactyl_manuform), with several models (4x5, 4x6, 5x6...). But rather than directly use it, I strongly suggest you to choose one model as baseline and copy as another folder, for example `mine`, then make your modification. It's because the firmware config is highly depends on how the keys wired and there is no standard way to wire. At the time I'm writing, the different predefined models don't follow the same way of wiring.
 
 What's more, when you have your own copy in another folder, you can safely merge latest QMK firmware to get update in QMK core, without fearing your keyboard config got changed by others' commit.
 
@@ -117,31 +117,24 @@ The first thing you need to define is how the Pro Micro pinouts connect to key m
 
 Note that the pins aren't Pro Micro pins, but AVR microcontroller pins. I've marked the mapping AVR pins beside Pro Micro pins in the circuit diagram above.
 
-By giving `MATRIX_ROW_PINS` and `MATRIX_COL_PINS`, you define the key matrix by rows and columns wiring in cuicuit. The next step is to define a mapping to each keys on the keyboard.
+By giving `MATRIX_ROW_PINS` and `MATRIX_COL_PINS`, you define the key matrix by rows and columns wiring in cuicuit. 
 
-It's inside `mine/keyboard.h` (you can change `keyboard` to any name, so long as all existences are changed):
+The next step is to define a mapping to each keys on the keyboard. It's inside `mine/keyboard.h` (you can change `keyboard` to any name, so long as all existences are changed):
 
 ```c
 #pragma once
 #include "quantum.h"
-#ifdef USE_I2C
-#include <stddef.h>
-#ifdef __AVR__
-	#include <avr/io.h>
-	#include <avr/interrupt.h>
-#endif
-#endif
 
 #define LAYOUT( \
-	L00, L01, L02, L03, L04,                     R00, R01, R02, R03, R04, \
-	L10, L11, L12, L13, L14,                     R10, R11, R12, R13, R14, \
-	L20, L21, L22, L23, L24,                     R20, R21, R22, R23, R24, \
-	     L31, L32,                                         R32, R33,      \
+    L00, L01, L02, L03, L04,                     R00, R01, R02, R03, R04, \
+    L10, L11, L12, L13, L14,                     R10, R11, R12, R13, R14, \
+    L20, L21, L22, L23, L24,                     R20, R21, R22, R23, R24, \
+         L31, L32,                                         R32, R33,      \
                    L33, L34,                     R30, R31,                \
                            L44, L42,     R42, R40,                        \
                            L43, L41,     R43, R41                         \
 	) \
-	{ \
+    { \
 		{ L00, L01, L02, L03, L04 },   \
 		{ L10, L11, L12, L13, L14 },   \
 		{ L20, L21, L22, L23, L24 },   \
@@ -153,10 +146,10 @@ It's inside `mine/keyboard.h` (you can change `keyboard` to any name, so long as
 		{ R20, R21, R22, R23, R24 },   \
 		{ R30, R31, R32, R33, KC_NO }, \
 		{ R40, R41, R42, R43, KC_NO }  \
-	}
+    }
 ```
 
-You need to carefully check and update the `LAYOUT` macro in this file. There are several lines but actually they're in two parts _physical_keyboard_layout_ and _key_matrix_in_circuit_ you need to change:
+You need to carefully check and update the `LAYOUT` macro in this file. There are several lines but actually  what you need to change are in two parts: _physical_keyboard_layout_ and _key_matrix_in_circuit_.
 
 ```
 #define LAYOUT( <physical_keyboard_layout> ) { <key_matrix_in_circuit> }
@@ -180,15 +173,15 @@ void matrix_init_kb(void) {
 };
 ```
 
-Now you're done the configurations with is related to how your keyboard is made. 
+Now you're done the configurations which is related to how your keyboard is made. 
 
 ### Keymap
 
 The keymap defines when a key or keys combination is pressed, what keycode is sent to computer.
 
-QMK firmware has rich features in keymaps. You should read its document beginning from this one: https://docs.qmk.fm/#/keymap
+QMK firmware has rich features for keymaps. You should read its document beginning from this one: https://docs.qmk.fm/#/keymap
 
-I use the default keymap of my keyboard as example. The code can be found at [GitHub](https://github.com/aleung/qmk_firmware/tree/my_dactyl_manuform/keyboards/handwired/dactyl_manuform/mine/keymaps/default). It's in three layers: base layer for alphabets, a function keys and navigation keys layer and a numbers and punctuation layer. This picture shows partial of the keymaps:
+I use the default keymap of my keyboard as example. The code can be found on [GitHub](https://github.com/aleung/qmk_firmware/tree/my_dactyl_manuform/keyboards/handwired/dactyl_manuform/mine/keymaps/default). It's in three layers: base layer for alphabets, a function keys and navigation keys layer and a numbers and punctuation layer. This picture shows partial of the keymaps:
 
 ![](keymap.png)
 
@@ -198,4 +191,26 @@ Below is the base layer config of my keyboard. The `LAYOUT` macro defined in `mi
 
 
 
+### Compile
+
+The easy way to compile the firmware is using docker. It saves the time to setup the build environment.
+
+Run below command under the root directory of `qmk-firmware` project:
+
+```sh
+docker run -e keyboard=handwired/dactyl_manuform/mine -e keymap=default --rm -v $('pwd'):/qmk:rw acette/qmk_firmware
+```
+
+Of cause, you have to already have Docker installed in your system.
+
+If everything works fine, a `.hex` file is generated.
+
 ### Flashing
+
+Last step is to use [QMK Toolbox](https://github.com/qmk/qmk_toolbox) to flash the firmware into the keyboard.
+
+Connect the keyboard to computer with USB cable and wait for a few seconds. Open QMK Toolbox, select the hex file to be flashed. When everything is ready, double click the reset button on keyboard and the Pro Micro will go into bootloader mode for 8 seconds. You must start flashing within this period. 
+
+The left hand part and right hand part both need to be flashed.
+
+All done!
