@@ -8,3 +8,5 @@
 *.gcode
 *.scad
 /target
+
+.DS_Store
