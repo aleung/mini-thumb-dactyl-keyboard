@@ -556,10 +556,10 @@
                               (union (translate [0 2 0] (cube 10.78  10 18.38))
                                      (translate [0 -0.01 5] (cube 10.78 14  5))))))
 
-(def arduino-holder-thickness 4)
-(def usb-hole-size [8 10 13])
+(def arduino-holder-thickness 5)
+(def usb-hole-size [8 9 13])
 (def usb-hole-position (replace-last
-   (map + [-8 2 0] (key-position 0 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
+   (map + [-10 -2 0] (key-position 0 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
    (+ (/ (last usb-hole-size) 2) 3)
 ))
 (def arduino-length 34)
@@ -583,9 +583,10 @@
                  (translate [(- 3 (/ (first arduino-holder-size) 2)) (- 3 (second arduino-holder-size)) 0]))
          )
          (translate usb-hole-position)))
+(def usb-holder-extend 10)
 (def usb-holder-hole
-    (->> (apply cube (map + [0 0.1 0] usb-hole-size))
-         (translate (map + [0 (/ (second usb-hole-size) -2) 0] usb-hole-position))))
+    (->> (apply cube (map + [0 usb-holder-extend 0] usb-hole-size))
+         (translate (map + [0 (/ (- usb-holder-extend (second usb-hole-size)) 2) 0] usb-hole-position))))
 
 (def reset-button-width 6.5)
 (def reset-button-position (replace-last
@@ -598,6 +599,14 @@
   (->> (cube (+ reset-button-width 4) 1.5 (- reset-button-width 2))
        (translate (map + [0 (- 0.5 wall-thickness) 0] reset-button-position))))
       
+(def cable-hole-position (replace-last
+   (key-position 0 0 (map + (wall-locate2 0 1) [8 (/ mount-height 2) 0]))
+   6))
+(def cable-hole
+  (->> (cylinder 2.5 10)
+       (rotate (deg2rad 90) [1 0 0])
+       (translate cable-hole-position)))
+
 (defn screw-insert-shape [bottom-radius top-radius height] 
    (union (cylinder [bottom-radius top-radius] height)
           (translate [0 0 (/ height 2)] (sphere top-radius))))
@@ -685,7 +694,7 @@
                 case-walls
                 connectors
                 thumb-connectors
-                rj9-holder
+                ; rj9-holder
                 arduino-holder
                 screw-insert-outers))
        (color [240/255 23/255 175/255 1] (bottom bottom-plate-infill-thickness plate-infill)))
@@ -705,11 +714,12 @@
                                        screw-insert-outers 
                                        arduino-holder
                                        )
-                                rj9-space 
+                                ; rj9-space 
                                 usb-holder-hole
                                 reset-button-hole
+                                cable-hole
                                 (translate [0 0 -0.01] screw-insert-holes) )
-                    rj9-holder
+                    ; rj9-holder
                     reset-button-holder
                     ; wire-posts
                     ; thumbcaps
@@ -734,7 +744,7 @@
                     case-walls 
                     thumbcaps
                     caps
-                    rj9-holder
+                    ; rj9-holder
                     usb-holder-hole
                     ;             screw-insert-outers 
                     ;             rj9-space 
