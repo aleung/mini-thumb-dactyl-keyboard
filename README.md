@@ -7,6 +7,8 @@ My fork contains below versions of keyboard models:
 
 ### Enhanced Dactyl-ManuForm
 
+![](guide/dactyl-manuform.jpg)
+
 File: [`dactyl.clj`](src/dactyl_keyboard/dactyl.clj)
 
 It's basically the original Dactyl-ManuForm with some enhancements, including:
@@ -14,6 +16,8 @@ It's basically the original Dactyl-ManuForm with some enhancements, including:
 - Printable bottom plate
 - Add hole to mount reset botton (Some manufactory's Pro Micro requires double reset to flash firmware)
 - Replace Teensy holder with Pro Micro holder
+
+![](resources/holder.jpg)
 
 ### Dactyl-ManuForm, thumb part printed separately (WIP)
 
@@ -23,7 +27,7 @@ The model might be larger than printable area of some 3D printers. I tried to se
 
 It's isn't fully done. Above enhancements aren't added into this version.
 
-### Mini-Thumb-Dactyl
+### Mini-Thumb-Dactyl (WIP)
 
 File: [`mini_thumb_dactyl.clj`](src/dactyl_keyboard/mini_thumb_dactyl.clj)
 
