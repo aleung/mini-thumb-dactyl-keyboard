@@ -302,20 +302,20 @@
 (defn thumb-tr-place [shape]
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -25) [0 1 0])
-       (rotate (deg2rad  10) [0 0 1])
+       (rotate (deg2rad -33) [0 1 0])
+       (rotate (deg2rad  20) [0 0 1])
        (translate thumborigin)
       ;  (translate [-12 -16 3])
-       (translate [-12 -10 3])
+       (translate [-17 -10 5])
        ))
 (defn thumb-tl-place [shape]
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -30) [0 1 0])
-       (rotate (deg2rad  15) [0 0 1])
+       (rotate (deg2rad -38) [0 1 0])
+       (rotate (deg2rad  20) [0 0 1])
        (translate thumborigin)
       ;  (translate [-32 -15 -2])))
-       (translate [-29 -15 -7])))
+       (translate [-32 -15 -6])))
 (defn thumb-ml-place [shape]
   (->> shape
       ;  (rotate (deg2rad   6) [1 0 0])
@@ -324,10 +324,10 @@
       ;  (translate thumborigin)
       ;  (translate [-51 -25 -12])))
        (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -38) [0 1 0])
+       (rotate (deg2rad -45) [0 1 0])
        (rotate (deg2rad  20) [0 0 1])
        (translate thumborigin)
-       (translate [-43 -22 -19])))
+       (translate [-44 -22 -19])))
 
 (defn thumb-1x-layout [shape]
   (union
@@ -556,10 +556,10 @@
                               (union (translate [0 2 0] (cube 10.78  10 18.38))
                                      (translate [0 -0.01 5] (cube 10.78 14  5))))))
 
-(def arduino-holder-thickness 5)
+(def arduino-holder-thickness 6)
 (def usb-hole-size [8 9 13])
 (def usb-hole-position (replace-last
-   (map + [-10 -2 0] (key-position 0 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
+   (map + [-9 -2 0] (key-position 0 0 (map + (wall-locate2 0 1) [0 (/ mount-height 2) 0])))
    (+ (/ (last usb-hole-size) 2) 3)
 ))
 (def arduino-length 34)
