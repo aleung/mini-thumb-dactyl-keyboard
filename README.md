@@ -27,7 +27,7 @@ It's isn't fully done. Above enhancements aren't added into this version.
 
 File: [`mini_thumb_dactyl.clj`](src/dactyl_keyboard/mini_thumb_dactyl.clj)
 
-I'm comfortable with the concave curve of Dactyl-ManuForm keyboard. But I don't need so many thumb keys. This version reduces thumb keys to three on each hand.
+I'm comfortable with the concave curve of Dactyl-ManuForm keyboard. But I don't need so many thumb keys. This version reduces thumb keys to three on each hand.'p;;;p;p;p;p;pp;p;'
 
 ## Assembly
 
