@@ -302,25 +302,25 @@
 (defn thumb-tr-place [shape]
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -25) [0 1 0])
-       (rotate (deg2rad  14) [0 0 1])
+       (rotate (deg2rad -30) [0 1 0])
+       (rotate (deg2rad  13) [0 0 1])
        (translate thumborigin)
-       (translate [-17 -10 5])
+       (translate [-18 -10 5])
        ))
 (defn thumb-tl-place [shape]
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -30) [0 1 0])
+       (rotate (deg2rad -35) [0 1 0])
        (rotate (deg2rad  17) [0 0 1])
        (translate thumborigin)
-       (translate [-32 -15 -6])))
+       (translate [-33 -15 -6])))
 (defn thumb-ml-place [shape]
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
-       (rotate (deg2rad -38) [0 1 0])
-       (rotate (deg2rad  20) [0 0 1])
+       (rotate (deg2rad -42) [0 1 0])
+       (rotate (deg2rad  22) [0 0 1])
        (translate thumborigin)
-       (translate [-44 -22 -19])))
+       (translate [-45 -22 -20])))
 
 (defn thumb-1x-layout [shape]
   (union
@@ -754,7 +754,9 @@
 
 (spit "things/test.scad"
       (write-scad 
-         (difference arduino-holder usb-holder-hole)))
+         (intersection 
+            (translate [55 -40 0] (cube 100 100 100))
+            (mirror [-1 0 0] model-right))))
 
 
 
