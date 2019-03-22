@@ -303,31 +303,24 @@
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
        (rotate (deg2rad -25) [0 1 0])
-       (rotate (deg2rad  10) [0 0 1])
+       (rotate (deg2rad  14) [0 0 1])
        (translate thumborigin)
-      ;  (translate [-12 -16 3])
-       (translate [-12 -10 3])
+       (translate [-17 -10 5])
        ))
 (defn thumb-tl-place [shape]
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
        (rotate (deg2rad -30) [0 1 0])
-       (rotate (deg2rad  15) [0 0 1])
+       (rotate (deg2rad  17) [0 0 1])
        (translate thumborigin)
-      ;  (translate [-32 -15 -2])))
-       (translate [-29 -15 -7])))
+       (translate [-32 -15 -6])))
 (defn thumb-ml-place [shape]
   (->> shape
-      ;  (rotate (deg2rad   6) [1 0 0])
-      ;  (rotate (deg2rad -34) [0 1 0])
-      ;  (rotate (deg2rad  40) [0 0 1])
-      ;  (translate thumborigin)
-      ;  (translate [-51 -25 -12])))
        (rotate (deg2rad  10) [1 0 0])
        (rotate (deg2rad -38) [0 1 0])
        (rotate (deg2rad  20) [0 0 1])
        (translate thumborigin)
-       (translate [-43 -22 -19])))
+       (translate [-44 -22 -19])))
 
 (defn thumb-1x-layout [shape]
   (union
