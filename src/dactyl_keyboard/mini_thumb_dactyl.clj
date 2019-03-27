@@ -107,7 +107,7 @@
 (def sa-length 18.25)
 (def sa-double-length 37.5)
 (def sa-cap {1 (let [bl2 (/ 18.5 2)
-                     m (/ 17 2)
+                     m (/ 18.5 2)
                      key-cap (hull (->> (polygon [[bl2 bl2] [bl2 (- bl2)] [(- bl2) (- bl2)] [(- bl2) bl2]])
                                         (extrude-linear {:height 0.1 :twist 0 :convexity 0})
                                         (translate [0 0 0.05]))
@@ -316,11 +316,11 @@
        (translate [-33 -15 -6])))
 (defn thumb-ml-place [shape]
   (->> shape
-       (rotate (deg2rad  10) [1 0 0])
+       (rotate (deg2rad  9) [1 0 0])
        (rotate (deg2rad -42) [0 1 0])
-       (rotate (deg2rad  22) [0 0 1])
+       (rotate (deg2rad  23) [0 0 1])
        (translate thumborigin)
-       (translate [-45 -22 -20])))
+       (translate [-45 -22 -19])))
 
 (defn thumb-1x-layout [shape]
   (union
