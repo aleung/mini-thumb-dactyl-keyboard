@@ -5,6 +5,20 @@ The Dactyl-Manuform is a fork of the [Dactyl](https://github.com/adereth/dactyl-
 
 My fork contains below versions of keyboard models:
 
+### Mini-Thumb-Dactyl
+
+File: [`mini_thumb_dactyl.clj`](src/dactyl_keyboard/mini_thumb_dactyl.clj)
+
+I'm comfortable with the concave curve of Dactyl-ManuForm keyboard. But I don't need so many thumb keys. This version reduces thumb keys to three on each hand.
+
+![](resources/model.png)
+
+Printable area requirement for mini-thumb-dactyl 5x6 is 16cm x 14cm, or delta printer diameter 18cm.
+
+![](resources/compare.jpg)
+
+I removed RJ9 connector hole in this version, because it's difficult to buy RJ9 connector. Use 3.5mm earphone jack or direct cable wiring instead.
+
 ### Enhanced Dactyl-ManuForm
 
 ![](guide/dactyl-manuform.jpg)
@@ -25,19 +39,7 @@ File: [`dactyl_split.clj`](src/dactyl_keyboard/dactyl_split.clj)
 
 The model might be larger than printable area of some 3D printers. I tried to separate the thumb part from main body of the keyboard to make it smaller.
 
-It's isn't fully done. Above enhancements aren't added into this version.
-
-### Mini-Thumb-Dactyl (WIP)
-
-File: [`mini_thumb_dactyl.clj`](src/dactyl_keyboard/mini_thumb_dactyl.clj)
-
-I'm comfortable with the concave curve of Dactyl-ManuForm keyboard. But I don't need so many thumb keys. This version reduces thumb keys to three on each hand.
-
-![](resources/model.png)
-
-Printable area requirement for mini-thumb-dactyl 5x6 is 16cm x 14cm, or delta printer diameter 18cm.
-
-![](resources/compare.jpg)
+It's isn't fully done and I gave it up because I turned to the mini-thumb-dactyl. Above enhancements aren't added into this version.
 
 ## Assembly
 
@@ -69,6 +71,10 @@ Fix the model before printing if it has defects. I use [Netfabb Free](https://gi
 ### Wiring & Firmware
 
 Please read the guide: [How to Make a Dactyl Manuform Keyboard](./guide/index.md)
+
+## Feedback
+
+Feel free to leave me comment. (建议使用英文，但若英文不熟练使用中文也可以)
 
 ## License
 
