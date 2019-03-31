@@ -181,11 +181,12 @@ The keymap defines when a key or keys combination is pressed, what keycode is se
 
 QMK firmware has rich features for keymaps. You should read its document beginning from this one: https://docs.qmk.fm/#/keymap
 
-I use the default keymap of my keyboard as example. The code can be found on [GitHub](https://github.com/aleung/qmk_firmware/tree/my_dactyl_manuform/keyboards/handwired/dactyl_manuform/mine/keymaps/default). It's in three layers: base layer for alphabets, a function keys and navigation keys layer and a numbers and punctuation layer. This picture shows partial of the keymaps:
+I use the default keymap of my mini-thumb-dactyl keyboard as example. 
+The code can be found on [GitHub](https://github.com/aleung/qmk_firmware/tree/my_dactyl_manuform/keyboards/handwired/dactyl_manuform/mine/keymaps/default). It's in two layers: base layer and a function keys and navigation keys layer. This picture shows partial of the keymaps (*Note: the picture doesn't reflect latest version in git repo*):
 
 ![](keymap.png)
 
-Below is the base layer config of my keyboard. The `LAYOUT` macro defined in `mine/keyboard.h` is used here to assign keycode to each key. It's reasonable to format it alike real keyboard -- intuitive to view. For the key which has no keycode assigned, which mean it's unused, set a placeholder `____` inside.
+Below is the base layer config of my keyboard. The `LAYOUT` macro defined in `mine/keyboard.h` is used here to assign keycode to each key. It's reasonable to format it alike real keyboard -- intuitive to view. For the key which has no keycode assigned, which mean it's unused, set a placeholder `_____` inside.
 
 ![](base-layer.png)
 
@@ -198,7 +199,7 @@ The easy way to compile the firmware is using docker. It saves the time to setup
 Run below command under the root directory of `qmk-firmware` project:
 
 ```sh
-docker run -e keyboard=handwired/dactyl_manuform/mine -e keymap=default --rm -v $('pwd'):/qmk:rw acette/qmk_firmware
+util/docker_build.sh handwired/dactyl_manuform/mine:default
 ```
 
 Of cause, you have to already have Docker installed in your system.
