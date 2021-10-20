@@ -1,4 +1,10 @@
 # The Mini Thumb Dactyl Keyboard
+
+Check the guide:
+> ### [How to Make a Dactyl Manuform Keyboard](guide/index.md)
+
+## 3D Models
+
 This is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboard), a parameterized, split-hand, concave, columnar, ergonomic keyboard.
 
 The Dactyl-Manuform is a fork of the [Dactyl](https://github.com/adereth/dactyl-keyboard) with the thumb cluster from [ManuForm](https://github.com/jeffgran/ManuForm).
